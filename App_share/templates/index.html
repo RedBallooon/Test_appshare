@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Google Sheet</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table, th, td { border: 1px solid black; border-collapse: collapse; padding: 6px; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h2>🔍 Search Online Google Sheet</h2>
+
+    <form method="POST">
+        <label>Enter search term:</label>
+        <input type="text" name="search_term" value="{{ search_term }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results is not none %}
+        <h3>Results:</h3>
+        {% if results.empty %}
+            <p>No matching results found.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        {% for col in results.columns %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results.itertuples(index=False) %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
